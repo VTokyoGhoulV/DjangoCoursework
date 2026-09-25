@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Mailer{% endblock %}
+
+{% block content %}
+<section class="text-center mb-5">
+    <h1 class="display-4 fw-semibold">Сервис рассылок</h1>
+    <p class="lead text-body-secondary">Общайтесь с клиентами и делитесь важными новостями.</p>
+</section>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="h4">Получатели рассылки</h2>
+                <p class="text-body-secondary">Добавляйте клиентов, сохраняйте их email и управляйте списком получателей.</p>
+                <a class="btn btn-success" href="{% url 'list_recipients' %}">Открыть список</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
