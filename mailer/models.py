@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 
@@ -26,3 +28,28 @@ class Message(models.Model):
     class Meta:
         verbose_name = "Сообщение"
         verbose_name_plural = "Сообщения"
+
+
+class Mailer(models.Model):
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    status = models.CharField(max_length=255, default="Создана")
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)
+    recipient = models.ManyToManyField(Recipient)
+
+    def update_status(self):
+
+        actual_time = datetime.now()
+        if actual_time < self.start_time:
+            self.status = "Создана"
+        elif self.start_time <= actual_time < self.end_time:
+            self.status = "Запущена"
+        elif actual_time > self.end_time:
+            self.status = "Завершена"
+
+    def __str__(self):
+        return self.message
+
+    class Meta:
+        verbose_name = ""
+        verbose_name_plural = ""
