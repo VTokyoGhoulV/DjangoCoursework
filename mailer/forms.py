@@ -29,6 +29,14 @@ class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
         fields = '__all__'
+        widgets = {
+            "topic": forms.TextInput(attrs={'class': 'form-control'}),
+            "message": forms.Textarea(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            "topic": "Тема",
+            "message": "Сообщение"
+        }
 
 
 # Mailer
