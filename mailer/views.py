@@ -1,8 +1,8 @@
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
 
-from mailer.forms import RecipientForm
-from mailer.models import Recipient
+from mailer.forms import RecipientForm, MessageForm
+from mailer.models import Recipient, Message
 
 
 # Create your views here.
@@ -45,3 +45,43 @@ class RecipientDetailView(DetailView):
     model = Recipient
     template_name = "detail_recipient.html"
     context_object_name = "recipient"
+
+
+# Message
+class MessageCreateView(CreateView):
+    model = Message
+    form_class = MessageForm
+    template_name = "create_message.html"
+    context_object_name = "message"
+
+    def get_success_url(self):
+        return reverse("detail_message", kwargs={"pk": self.object.pk})
+
+
+class MessageUpdateView(UpdateView):
+    model = Message
+    form_class = MessageForm
+    template_name = "update_message.html"
+    context_object_name = "message"
+
+    def get_success_url(self):
+        return reverse("detail_message", kwargs={"pk": self.object.pk})
+
+
+class MessageDeleteView(DeleteView):
+    model = Message
+    template_name = "delete_message.html"
+    context_object_name = "message"
+    success_url = reverse_lazy("list_messages")
+
+
+class MessageListView(ListView):
+    model = Message
+    template_name = "list_message.html"
+    context_object_name = "messages"
+
+
+class MessageDetailView(DetailView):
+    model = Message
+    template_name = "detail_message.html"
+    context_object_name = "message"
