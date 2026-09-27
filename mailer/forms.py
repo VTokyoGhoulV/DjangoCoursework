@@ -12,7 +12,16 @@ class RecipientForm(forms.ModelForm):
     class Meta:
         model = Recipient
         fields = '__all__'
-
+        widgets = {
+            "email": forms.EmailInput(attrs={'class': 'form-control'}),
+            "name": forms.TextInput(attrs={'class': 'form-control'}),
+            "comment": forms.Textarea(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            "email": "Email",
+            "name": "Имя",
+            "comment": "Комментарий"
+        }
 
 # Message
 
