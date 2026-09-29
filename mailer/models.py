@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.utils import timezone
 
 from django.db import models
 
@@ -39,7 +39,7 @@ class Mailer(models.Model):
 
     def update_status(self):
 
-        actual_time = datetime.now()
+        actual_time = timezone.now()
         if actual_time < self.start_time:
             self.status = "Создана"
         elif self.start_time <= actual_time < self.end_time:
