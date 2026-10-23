@@ -10,6 +10,16 @@
                 <a class="btn btn-success" href="{% url 'create_recipient' %}">Добавить получателя</a>
                 <a class="btn btn-success" href="{% url 'create_message' %}">Добавить сообщение</a>
                 <a class="btn btn-success" href="{% url 'create_mailer' %}">Добавить рассылку</a>
+                {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                        Выйти
+                    </button>
+                </form>
+                {% else %}
+                <a class="btn btn-outline-light" href="{% url 'login' %}">Войти</a>
+                {% endif %}
             </div>
         </div>
     </nav>

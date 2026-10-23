@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mailer'
+    'mailer',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_RECIPIENT = os.getenv("EMAIL_RECIPIENT")
 
 EMAIL_TIMEOUT = 10
+
+LOGIN_REDIRECT_URL = "index"
+LOGOUT_REDIRECT_URL = "index"
+LOGIN_URL = "login"

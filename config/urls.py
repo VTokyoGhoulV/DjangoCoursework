@@ -25,4 +25,6 @@ urlpatterns = [
     path("", home, name="index"),
 
     path("mailer/", include("mailer.urls")),
+
+    path("users/", include("users.urls")),
 ]
