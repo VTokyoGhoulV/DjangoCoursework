@@ -40,12 +40,18 @@ class Mailer(models.Model):
     def update_status(self):
 
         actual_time = timezone.now()
+        old_status = self.status
+
         if actual_time < self.start_time:
             self.status = "Создана"
         elif self.start_time <= actual_time < self.end_time:
             self.status = "Запущена"
-        elif actual_time > self.end_time:
+        elif actual_time >= self.end_time:
             self.status = "Завершена"
+
+        if self.status != old_status:
+            self.save(update_fields=["status"])
+
 
     def __str__(self):
         return self.message
