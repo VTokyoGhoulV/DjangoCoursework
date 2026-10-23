@@ -28,11 +28,13 @@ def send_mailing(mailer_id):
             )
 
         except Exception as error:
-            MailerAttempt.objects.create(mailer=mailer, recipient=person, status="Не успешно", error_message=str(error))
+            MailerAttempt.objects.create(mailing=mailer, recipient=person, status="Не успешно",
+                                         server_response=str(error))
 
         else:
             if result == 1:
-                MailerAttempt.objects.create(mailer=mailer, recipient=person, status="Успешно")
+                MailerAttempt.objects.create(mailing=mailer, recipient=person, status="Успешно",
+                                             server_response="Письмо передано почтовому серверу")
             else:
-                MailerAttempt.objects.create(mailer=mailer, recipient=person, status="Не успешно",
-                                             error_message="Функция отправки вернула 0")
+                MailerAttempt.objects.create(mailing=mailer, recipient=person, status="Не успешно",
+                                             server_response="Функция отправки вернула 0")

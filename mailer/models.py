@@ -56,8 +56,8 @@ class Mailer(models.Model):
 
 
 class MailerAttempt(models.Model):
-    mailer = models.ForeignKey(Mailer, on_delete=models.CASCADE)
+    mailing = models.ForeignKey(Mailer, on_delete=models.CASCADE)
     recipient = models.ForeignKey(Recipient, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(default=timezone.now)
+    attempt_time = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=20)
-    error_message = models.TextField(blank=True)
+    server_response = models.TextField(blank=True)
