@@ -1,9 +1,11 @@
+from django.contrib import messages
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView, View
+from django.shortcuts import redirect
 
 from mailer.forms import RecipientForm, MessageForm, MailerForm
 from mailer.models import Recipient, Message, Mailer
-
+from mailer.services import send_mailing
 
 # Create your views here.
 
@@ -137,3 +139,13 @@ class MailerDetailView(DetailView):
         obj = super().get_object(queryset)
         obj.update_status()
         return obj
+
+class MailerSendView(View):
+
+    def post(self, request, pk):
+        try:
+            send_mailing(pk)
+        except ValueError as error:
+            messages.error(request, str(error))
+
+        return redirect("detail_mailer", pk=pk)
