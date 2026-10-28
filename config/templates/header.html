@@ -11,6 +11,7 @@
                 <a class="btn btn-success" href="{% url 'create_message' %}">Добавить сообщение</a>
                 <a class="btn btn-success" href="{% url 'create_mailer' %}">Добавить рассылку</a>
                 {% if user.is_authenticated %}
+                <a class="btn btn-success" href="{% url 'mailer_statistic' %}">Статистика</a>
                 <form action="{% url 'logout' %}" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">

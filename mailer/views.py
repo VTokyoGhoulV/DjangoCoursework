@@ -1,11 +1,14 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView, View
-from django.shortcuts import redirect
 
 from mailer.forms import RecipientForm, MessageForm, MailerForm
-from mailer.models import Recipient, Message, Mailer
+from mailer.models import Recipient, Message, Mailer, MailerAttempt
 from mailer.services import send_mailing
+
 
 # Create your views here.
 
@@ -90,7 +93,7 @@ class MessageDetailView(DetailView):
 
 
 # Mailer
-class MailerCreateView(CreateView):
+class MailerCreateView(LoginRequiredMixin, CreateView):
     model = Mailer
     form_class = MailerForm
     template_name = "mailer/create_mailer.html"
@@ -98,6 +101,10 @@ class MailerCreateView(CreateView):
 
     def get_success_url(self):
         return reverse("detail_mailer", kwargs={"pk": self.object.pk})
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
 
 class MailerUpdateView(UpdateView):
@@ -140,6 +147,7 @@ class MailerDetailView(DetailView):
         obj.update_status()
         return obj
 
+
 class MailerSendView(View):
 
     def post(self, request, pk):
@@ -149,3 +157,12 @@ class MailerSendView(View):
             messages.error(request, str(error))
 
         return redirect("detail_mailer", pk=pk)
+
+
+@login_required
+def statistic(request):
+    attempts = MailerAttempt.objects.filter(mailing__owner=request.user)
+    successful_attempts = attempts.filter(status="Успешно").count()
+    unsuccessful_attempts = attempts.filter(status="Не успешно").count()
+    return render(request, "mailer/statistic.html",
+                  {"successful_attempts": successful_attempts, "unsuccessful_attempts": unsuccessful_attempts})

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.utils import timezone
 
 from django.db import models
@@ -36,6 +37,7 @@ class Mailer(models.Model):
     status = models.CharField(max_length=255, default="Создана")
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
     recipient = models.ManyToManyField(Recipient)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
     def update_status(self):
 

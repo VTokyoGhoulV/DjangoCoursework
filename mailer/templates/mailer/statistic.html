@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Mailer - Статистика пользователя{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card shadow-sm mx-auto" style="max-width: 650px;">
+        <div class="card-body p-4">
+
+            <h1 class="mb-4">Статистика пользователя</h1>
+            <p>Отправлено сообщений (успешные попытки): {{ successful_attempts }}</p>
+            <p>Неуспешные попытки: {{ unsuccessful_attempts }}</p>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -60,7 +60,7 @@ class MailerForm(forms.ModelForm):
     class Meta:
         model = Mailer
         fields = "__all__"
-        exclude = ["status"]
+        exclude = ["status","owner"]
         widgets = {
             "start_time": forms.DateTimeInput(
                 format="%Y-%m-%dT%H:%M",
