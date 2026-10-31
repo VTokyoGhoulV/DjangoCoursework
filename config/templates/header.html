@@ -18,6 +18,9 @@
                         Выйти
                     </button>
                 </form>
+                {% if perms.auth.view_user %}
+                <a class="btn btn-success" href="{% url 'user_list' %}">Список пользователей</a>
+                {% endif %}
                 {% else %}
                 <a class="btn btn-outline-light" href="{% url 'login' %}">Войти</a>
                 {% endif %}

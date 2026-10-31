@@ -17,8 +17,10 @@
     <div class="mt-5">
         <a class="btn btn-success" aria-current="page" href="{% url 'list_recipients' %}">Вернуться к списку
             получателей</a>
+        {% if recipient.owner == user %}
         <a class="btn btn-warning" href="{% url 'update_recipient' pk=recipient.pk %}">Редактировать</a>
         <a class="btn btn-danger" href="{% url 'delete_recipient' pk=recipient.pk %}">Удалить</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

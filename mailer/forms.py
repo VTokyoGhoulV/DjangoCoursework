@@ -12,6 +12,7 @@ class RecipientForm(forms.ModelForm):
     class Meta:
         model = Recipient
         fields = "__all__"
+        exclude = ["owner"]
         widgets = {
             "email": forms.EmailInput(attrs={"class": "form-control"}),
             "name": forms.TextInput(attrs={"class": "form-control"}),
@@ -30,6 +31,7 @@ class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
         fields = "__all__"
+        exclude = ["owner"]
         widgets = {
             "topic": forms.TextInput(attrs={"class": "form-control"}),
             "message": forms.Textarea(attrs={"class": "form-control"}),
@@ -60,7 +62,7 @@ class MailerForm(forms.ModelForm):
     class Meta:
         model = Mailer
         fields = "__all__"
-        exclude = ["status","owner"]
+        exclude = ["status", "owner", "is_enabled"]
         widgets = {
             "start_time": forms.DateTimeInput(
                 format="%Y-%m-%dT%H:%M",

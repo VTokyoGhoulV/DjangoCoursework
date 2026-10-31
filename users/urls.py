@@ -2,7 +2,7 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, 
     PasswordResetConfirmView, PasswordResetCompleteView
 from django.urls import path
 
-from users.views import register, activate
+from users.views import register, activate, UsersListView, UserBlockListView
 
 urlpatterns = [
     path("register/", register, name="register"),
@@ -23,4 +23,7 @@ urlpatterns = [
 
     path("password_reset_complete/", PasswordResetCompleteView.as_view(template_name="password_reset_complete.html"),
          name="password_reset_complete"),
+
+    path("user_list", UsersListView.as_view(), name="user_list"),
+    path("block_user/<int:pk>/", UserBlockListView.as_view(), name="block_user"),
 ]

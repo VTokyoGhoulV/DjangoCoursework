@@ -10,6 +10,7 @@ class Recipient(models.Model):
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=255)
     comment = models.TextField()
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.email
@@ -22,6 +23,7 @@ class Recipient(models.Model):
 class Message(models.Model):
     topic = models.CharField(max_length=255)
     message = models.TextField()
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.topic
@@ -38,13 +40,16 @@ class Mailer(models.Model):
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
     recipient = models.ManyToManyField(Recipient)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    is_enabled = models.BooleanField(default=True)
 
     def update_status(self):
 
         actual_time = timezone.now()
         old_status = self.status
 
-        if actual_time < self.start_time:
+        if not self.is_enabled:
+            self.status = "Отключена"
+        elif actual_time < self.start_time:
             self.status = "Создана"
         elif self.start_time <= actual_time < self.end_time:
             self.status = "Запущена"
@@ -61,6 +66,7 @@ class Mailer(models.Model):
     class Meta:
         verbose_name = ""
         verbose_name_plural = ""
+        permissions = [("disable_mailer", "Может отключать рассылку")]
 
 
 class MailerAttempt(models.Model):

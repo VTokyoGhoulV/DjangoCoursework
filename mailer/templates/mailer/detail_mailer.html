@@ -12,13 +12,16 @@
         <div class="mt-4 mx-auto text-start" style="max-width: 650px;">
             <p class="text-break"> Дата начала: {{ mailer.start_time }} </p>
             <p class="text-break"> Дата конца: {{ mailer.end_time }} </p>
-            <p class="text-break"> Получатели: {% for recipient in mailer.recipient.all %} {{ recipient }}, {% endfor %}</p>
+            <p class="text-break">
+                Получатели: {% for recipient in mailer.recipient.all %} {{ recipient }}, {% endfor %}
+            </p>
             <p class="text-break"> Статус: {{ mailer.status }} </p>
         </div>
     </div>
     <div class="mt-5 d-flex justify-content-center align-items-center gap-2 flex-wrap">
         <a class="btn btn-success" aria-current="page" href="{% url 'list_mailers' %}">Вернуться к списку
             сообщений</a>
+        {% if mailer.owner == user %}
         <form method="post" action="{% url 'send_mailer' pk=mailer.id %}">
             {% csrf_token %}
             <button type="submit" class="btn btn-success">
@@ -29,6 +32,15 @@
         <a class="btn btn-warning" href="{% url 'update_mailer' pk=mailer.pk %}">Редактировать</a>
         {% endif %}
         <a class="btn btn-danger" href="{% url 'delete_mailer' pk=mailer.pk %}">Удалить</a>
+        {% endif %}
+        {% if perms.mailer.disable_mailer and mailer.is_enabled %}
+        <form method="post" action="{% url 'disable_mailer' pk=mailer.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+                Отключить рассылку
+            </button>
+        </form>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

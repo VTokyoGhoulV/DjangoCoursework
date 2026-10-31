@@ -9,6 +9,9 @@ def send_mailing(mailer_id):
     mailer = Mailer.objects.get(id=mailer_id)
     current_time = timezone.now()
 
+    if not mailer.is_enabled:
+        raise ValueError("Рассылка отключена менеджером")
+
     if mailer.start_time > current_time:
         raise ValueError("Время рассылки еще не наступило, отправка сообщений не возможна")
 
