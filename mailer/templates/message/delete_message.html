@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Mailer - Удаление сообщения{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+        <div class="card shadow-sm mx-auto" style="max-width: 650px;">
+            <div class="card-body p-4">
+                <h1 class="mb-4">Удаление сообщения</h1>
+                <p>Вы точно хотите удалить сообщение "{{ message.topic }}"</p>
+                <form method="post">
+                    {% csrf_token %}
+
+                    <a href="{% url 'list_messages' %}" class="btn btn-success">
+                        Отменить
+                    </a>
+
+                    <button type="submit" class="btn btn-danger">
+                        Удалить
+                    </button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

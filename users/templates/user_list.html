@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Mailer - Пользователи сервиса{% endblock %}
+
+{% block content %}
+<div class="container mt-2 text-center">
+    {% for account in service_users %}
+    {% if not account.userblock %}
+    <div class="container mt-2 text-center">
+        <h1>Имя: {{ account.username }}</h1>
+        <div class="mt-4 mx-auto text-start" style="max-width: 650px;">
+            <p>Почта: {{ account.email }}</p>
+        </div>
+        {% if perms.users.block_user and account != user and not account.is_superuser %}
+        <form method="post" action="{% url 'block_user' pk=account.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+                Заблокировать
+            </button>
+        </form>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Mailer - Детали получателя{% endblock %}
+
+{% block content %}
+<div class="container mt-2 text-center">
+    <div class="container mt-2 text-center">
+        <h1>Информация о получателе: {{ recipient.name }}</h1>
+        <div class="mt-4 mx-auto text-start" style="max-width: 650px;">
+            <p>Почта: {{ recipient.email }}</p>
+        </div>
+        <div class="mx-auto text-start" style="max-width: 650px;">
+            <p class="mb-1">Комментарий:</p>
+            <p class="text-break">{{ recipient.comment|linebreaksbr }}</p>
+        </div>
+    </div>
+    <div class="mt-5">
+        <a class="btn btn-success" aria-current="page" href="{% url 'list_recipients' %}">Вернуться к списку
+            получателей</a>
+        {% if recipient.owner == user %}
+        <a class="btn btn-warning" href="{% url 'update_recipient' pk=recipient.pk %}">Редактировать</a>
+        <a class="btn btn-danger" href="{% url 'delete_recipient' pk=recipient.pk %}">Удалить</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

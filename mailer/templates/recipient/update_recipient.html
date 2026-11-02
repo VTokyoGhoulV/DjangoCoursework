@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Mailer - Редактирование получателя{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <div class="card shadow-sm mx-auto" style="max-width: 650px;">
+
+        <div class="card-body p-4">
+
+            <h1 class="mb-4">Редактирование получателя</h1>
+
+            <form method="post">
+                {% csrf_token %}
+
+                {% for field in form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">
+                        {{ field.label }}
+                    </label>
+                    {{ field }}
+                    {% for error in field.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-success">Сохранить</button>
+                <a href="{% url 'list_recipients' %}" class="btn btn-danger">Отменить</a>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

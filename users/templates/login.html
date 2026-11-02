@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Mailer - Вход в аккаунт{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1>Вход в аккаунт</h1>
+                <form method="post">
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+                    <input type="hidden" name="next" value="{{ next }}">
+
+                    <button type="submit" class="btn btn-success">
+                        Войти
+                    </button>
+                    <a href="{% url 'register' %}">Регистрация</a>
+                    <a href="{% url 'password_reset' %}">Забыли пароль?</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

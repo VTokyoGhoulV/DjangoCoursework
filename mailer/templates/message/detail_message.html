@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Mailer - Детали сообщения{% endblock %}
+
+{% block content %}
+<div class="container mt-2 text-center">
+    <div class="container mt-2 text-center">
+        <h1>Информация о сообщении: {{ message.topic }}</h1>
+        <div class="mt-4 mx-auto text-start" style="max-width: 650px;">
+            <p class="text-break">Текст сообщения: {{ message.message|linebreaksbr }}</p>
+        </div>
+    </div>
+    <div class="mt-5">
+        <a class="btn btn-success" aria-current="page" href="{% url 'list_messages' %}">Вернуться к списку
+            сообщений</a>
+        <a class="btn btn-warning" href="{% url 'update_message' pk=message.pk %}">Редактировать</a>
+        <a class="btn btn-danger" href="{% url 'delete_message' pk=message.pk %}">Удалить</a>
+    </div>
+</div>
+{% endblock %}

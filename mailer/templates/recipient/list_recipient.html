@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Mailer - Список получателей{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <section class="container pb-5" aria-labelledby="catalog-title">
+        <h2 class="visually-hidden" id="catalog-title">Каталог</h2>
+        <div class="row g-4 justify-content-center">
+            {% for recipient in recipients %}
+            <div class="col-sm-10 col-md-6 col-lg-4 py-5">
+                <article class="card h-100 shadow-sm">
+                    <div class="card-header text-center py-3">
+                        <h3 class="h4 mb-0">{{ recipient.email }}</h3>
+                    </div>
+                    <div class="card-body d-flex flex-column p-4">
+                        <p class="display-6 fw-semibold text-center">{{ recipient.name }}</p>
+                        <ul class="list-group list-group-flush mb-4">
+                            <li class="list-group-item px-0">{{ recipient.comment|truncatechars:100 }}</li>
+                        </ul>
+                        <a class="btn btn-outline-success btn-lg mt-auto" type="button"
+                           href="{% url 'detail_recipient' pk=recipient.pk %}">Подробнее</a>
+                    </div>
+                </article>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
